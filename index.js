@@ -81,6 +81,32 @@ function validateInput({ center, radius, numberOfSegments }) {
   validateNumberOfSegments(numberOfSegments);
 }
 
+function riskCrossingBoundery(center, radius) {
+  /* 
+  This function should return true if
+  there is a risk that the polygon might
+  cross the GMT line, or North/South Pole
+  1.5m is not more than < 0.000015 in lat & lng
+  */
+
+  const [lng, lat] = center;
+
+  const diff = radius * 0.000015;
+  const checkLng = lng + diff > 180 || lng - diff < -180;
+  const checkLat = lat + diff > 90 || lat - diff < -90;
+
+  return checkLng || checkLat;
+}
+
+function isCrossingBoundery(coordinates) {
+  return coordinates.some(coordinate => {
+    const [lng, lat] = coordinate;
+    const lngOutsideBoundery = lng > 180 || lng < -180;
+    const latOutsideBoundery = lat > 90 || lat < -90;
+    return lngOutsideBoundery || latOutsideBoundery;
+  });
+}
+
 module.exports = function circleToPolygon(center, radius, numberOfSegments) {
   var n = numberOfSegments ? numberOfSegments : 32;
 
@@ -93,8 +119,14 @@ module.exports = function circleToPolygon(center, radius, numberOfSegments) {
   }
   coordinates.push(coordinates[0]);
 
-  return {
+  var polygon = {
     type: "Polygon",
     coordinates: [coordinates]
   };
+
+  if (riskCrossingBoundery(center, radius) && isCrossingBoundery(coordinates)) {
+    polygon.type = "MultiPolygon";
+  }
+
+  return polygon;
 };
