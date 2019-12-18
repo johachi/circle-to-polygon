@@ -1,6 +1,14 @@
 const { expect } = require("chai");
 const circleToPolygon = require("./index.js");
-const { expected1, expected2, expected3, expected4, expected5, expected6 } = require("./test-constants");
+const {
+  expected1,
+  expected2,
+  expected3,
+  expected4,
+  expected5,
+  expected6,
+  expected7
+} = require("./test-constants");
 
 describe("Output verification", () => {
   describe("Polygon should have correct attributes", () => {
@@ -131,9 +139,26 @@ describe("Output verification", () => {
     });
 
     describe("Testing non-trivial points", () => {
+      it("should return multipolygon type when necessary", () => {
+        const actualPoluygon = circleToPolygon([180, 30], 100, 8);
+
+        expect(actualPoluygon.type).to.equal("MultiPolygon");
+      });
       xit("should return corret circle for center in lat -90", () => {});
       xit("should return corret circle for center in lat 90 ", () => {});
-      xit("should return corret circle for center in lng 180 ", () => {});
+      xit("should return corret circle for center in lng 180 ", () => {
+        const expectedCoordinates = expected7;
+        
+        // Incorrect
+        const actualPolygon = circleToPolygon([180, 0], 200, 5);
+        const { coordinates } = actualPolygon;
+        
+        expect(actualPoluygon.type).to.equal("MultiPolygon");
+        expect(coordinates.length).to.equal(2);
+        expect(coordinates[0].length).to.equal(2);
+        // expect(coordinates[0][0].length).to.equal(2);
+        // expect(coordinates[1][0].length).to.equal(2);
+      });
       xit("should return corret circle for center in lng -180 ", () => {});
       xit("should return corret circle for center in lat 90 lng 180 ", () => {});
       xit("should return corret circle for center in lat 90 lng -180 ", () => {});
