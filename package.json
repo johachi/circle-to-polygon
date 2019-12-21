@@ -4,7 +4,7 @@
   "description": "Receives a Coordinate, a Radius and a Number of edges and aproximates a circle by creating a polygon that fills its area",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./**/*specs.js"
+    "test": "mocha ./*.specs.js ./**/*.specs.js"
   },
   "repository": {
     "type": "git",
