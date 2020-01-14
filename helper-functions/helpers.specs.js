@@ -40,138 +40,59 @@ describe("hepler functions", () => {
   });
 
   describe.only("make valid point", () => {
-    describe("Second quadrant", () => {
-      describe("fixes too big lat values", () => {
-        it("Test 1a", () => {
+    describe("Too big lat values", () => {
+      describe("", () => {
+        // TODO: [180, x] and [-180, x] are both the same point.
+        // Check if there are cases where only one is correct for our application.
+        it("Test 01", () => {
           expect(makeValidCoordinate([0, 91])).to.deep.eq([180, 89]);
         });
-
-        it("Test 1b", () => {
-          expect(makeValidCoordinate([180, 91])).to.deep.eq([0, 89]);
+        it("Test: 02", () => {
+          expect(makeValidCoordinate([0, 100])).to.deep.eq([180, 80]);
         });
-
-        it("Test 1c", () => {
-          expect(makeValidCoordinate([-180, 91])).to.deep.eq([0, 89]);
-        });
-
-        it("Test 2a", () => {
-          expect(makeValidCoordinate([0, 180])).to.deep.eq([180, 0]);
-        });
-
-        it("Test 2b", () => {
-          expect(makeValidCoordinate([180, 180])).to.deep.eq([0, 0]);
-        });
-
-        it("Test 2c", () => {
-          expect(makeValidCoordinate([-180, 180])).to.deep.eq([0, 0]);
-        });
-
-        it("Test 3a", () => {
+        it("Test: 03", () => {
           expect(makeValidCoordinate([0, 179])).to.deep.eq([180, 1]);
         });
-
-        it("Test 3b", () => {
-          expect(makeValidCoordinate([180, 179])).to.deep.eq([0, 1]);
+        it("Test: 04", () => {
+          // Spceial
+          expect(makeValidCoordinate([0, 180])).to.deep.eq([180, 0]);
         });
-
-        it("Test 3c", () => {
-          expect(makeValidCoordinate([-180, 179])).to.deep.eq([0, 1]);
+        it("Test: 05", () => {
+          expect(makeValidCoordinate([0, 181])).to.deep.eq([180, -1]);
         });
-
-        it("Test 4", () => {
-          expect(makeValidCoordinate([18, 95])).to.deep.eq([-162, 85]);
+        it("Test: 06", () => {
+          expect(makeValidCoordinate([0, 196])).to.deep.eq([180, -16]);
         });
-
-        it("Test 5", () => {
-          expect(makeValidCoordinate([140, 140])).to.deep.eq([-40, 40]);
+        it("Test: 07", () => {
+          expect(makeValidCoordinate([0, 269])).to.deep.eq([180, -89]);
         });
-
-        it("Test 6", () => {
-          expect(makeValidCoordinate([-150, 160])).to.deep.eq([30, 20]);
+        it("Test: 08", () => {
+          // Special because any lng value could be considered correct...
+          expect(makeValidCoordinate([0, 270])[1]).to.equal(-90);
         });
-
-        it("Test 7", () => {
-          expect(makeValidCoordinate([-20, 179])).to.deep.eq([160, 1]);
+        it("Test: 09", () => {
+          expect(makeValidCoordinate([0, 271])).to.deep.eq([0, -89]);
         });
-      });
-
-      xdescribe("fixes too small lat values", () => {
-        it("Test 1", () => {
-          expect(makeValidCoordinate([0, -180])).to.deep.eq([-180, 0]);
+        it("Test: 10", () => {
+          expect(makeValidCoordinate([0, 359])).to.deep.eq([0, -1]);
         });
-
-        it("Test 2", () => {
-          expect(makeValidCoordinate([0, -270])).to.deep.eq([180, 90]);
+        it("Test: 11", () => {
+          expect(makeValidCoordinate([0, 360])).to.deep.eq([0, 0]);
         });
-
-        it("Test 3", () => {
-          expect(makeValidCoordinate([180, -180])).to.deep.eq([0, 79]);
+        xit("Test: 12", () => {
+          expect(makeValidCoordinate([0, 361])).to.deep.eq([0, 1]);
         });
-
-        it("Test 4", () => {
-          expect(makeValidCoordinate([180, -270])).to.deep.eq([0, 1]);
+        xit("Test: 13", () => {
+          expect(makeValidCoordinate([0, 380])).to.deep.eq([0, 20]);
         });
-
-        it("Test 5", () => {
-          expect(makeValidCoordinate([18, -181])).to.deep.eq([-162, 1]);
+        xit("Test: 14", () => {
+          expect(makeValidCoordinate([0, 449])).to.deep.eq([0, 89]);
         });
-
-        it("Test 6", () => {
-          expect(makeValidCoordinate([-20, 200])).to.deep.eq([160, 1]);
+        xit("Test: 15", () => {
+          expect(makeValidCoordinate([0, 450])).to.deep.eq([0, 90]);
         });
-      });
-    });
-
-    describe("Third quadrant", () => {
-      describe("fixes too small lat values", () => {
-        it("Test 1a", () => {
-          expect(makeValidCoordinate([0, -91])).to.deep.eq([180, -89]);
-        });
-
-        it("Test 1b", () => {
-          expect(makeValidCoordinate([180, -91])).to.deep.eq([0, -89]);
-        });
-
-        it("Test 1c", () => {
-          expect(makeValidCoordinate([-180, -91])).to.deep.eq([0, -89]);
-        });
-
-        it("Test 2a", () => {
-          const actual = makeValidCoordinate([0, -180]);
-          expect(actual[1]).to.eq(0);
-          expect(actual[0] === 180 || actual[0] === -180).to.equal(true);
-        });
-
-        it("Test 2b", () => {
-          expect(makeValidCoordinate([180, -180])).to.deep.eq([0, 0]);
-        });
-
-        it("Test 2c", () => {
-          expect(makeValidCoordinate([-180, -180])).to.deep.eq([0, 0]);
-        });
-
-        it("Test 1", () => {
-          expect(makeValidCoordinate([0, -95])).to.deep.eq([180, -85]);
-        });
-
-        it("Test 2", () => {
-          expect(makeValidCoordinate([0, -180])).to.deep.eq([180, 0]);
-        });
-
-        it("Test 3", () => {
-          expect(makeValidCoordinate([180, -101])).to.deep.eq([0, -79]);
-        });
-
-        it("Test 4", () => {
-          expect(makeValidCoordinate([180, -179])).to.deep.eq([0, -1]);
-        });
-
-        it("Test 5", () => {
-          expect(makeValidCoordinate([18, -179])).to.deep.eq([-162, -1]);
-        });
-
-        it("Test 6", () => {
-          expect(makeValidCoordinate([-20, -178])).to.deep.eq([160, -2]);
+        xit("Test: 16", () => {
+          expect(makeValidCoordinate([0, 451])).to.deep.eq([180, 89]);
         });
       });
     });
