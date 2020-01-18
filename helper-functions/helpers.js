@@ -12,6 +12,20 @@ function getLatBetweenPoints(coordinate1, coordinate2) {
 
 exports.getLatBetweenPoints = getLatBetweenPoints;
 
+function makeValidLngCoordinate(lng) {
+  while (lng > 180) {
+    lng = lng - 360;
+  }
+
+  while (lng < -180) {
+    lng = lng + 360;
+  }
+
+  if (lng === -0) lng = 0;
+
+  return lng
+}
+
 function makeValidCoordinate(coordinate) {
   let [lng, lat] = coordinate;
 
