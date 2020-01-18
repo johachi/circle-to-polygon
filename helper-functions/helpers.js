@@ -15,25 +15,18 @@ exports.getLatBetweenPoints = getLatBetweenPoints;
 function makeValidCoordinate(coordinate) {
   let [lng, lat] = coordinate;
 
-  while (lat >= 360) {
+  while (lat >= 270) {
     lat = lat - 360;
   }
 
   if (lat > 90) {
     const numberOfSkippedQuadrants = Math.floor(lat / 90);
+    lng = lng > 0 ? lng - 180 : lng + 180;
 
-    if (numberOfSkippedQuadrants % 4 === 0) {
-      lat = lat - 90 * numberOfSkippedQuadrants;
-      // lng = lng > 0 ? lng - 180 : lng + 180;
-    } else if (numberOfSkippedQuadrants % 2 === 0) {
+    if (numberOfSkippedQuadrants % 2 === 0) {
       lat = -(lat - 90 * numberOfSkippedQuadrants);
-      lng = lng > 0 ? lng - 180 : lng + 180;
-    } else if (numberOfSkippedQuadrants % 3 === 0) {
-      lat = lat - 90 * (numberOfSkippedQuadrants + 1);
-      // lng = lng > 0 ? lng - 180 : lng + 180;
     } else {
       lat = -(lat - 90 * (numberOfSkippedQuadrants + 1));
-      lng = lng > 0 ? lng - 180 : lng + 180;
     }
   }
 
