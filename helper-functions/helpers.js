@@ -20,14 +20,8 @@ function makeValidCoordinate(coordinate) {
   }
 
   if (lat > 90) {
-    const numberOfSkippedQuadrants = Math.floor(lat / 90);
     lng = lng > 0 ? lng - 180 : lng + 180;
-
-    if (numberOfSkippedQuadrants % 2 === 0) {
-      lat = -(lat - 90 * numberOfSkippedQuadrants);
-    } else {
-      lat = -(lat - 90 * (numberOfSkippedQuadrants + 1));
-    }
+    lat = 180 - lat;
   }
 
   if (lat === -0) lat = 0;
