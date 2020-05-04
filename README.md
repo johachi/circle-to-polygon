@@ -71,7 +71,10 @@ polygon:
   - Second Element: `latitude` **[Number][numberdef]** **\*required**, can be any number `<=90 `and `>=-90`
   - Third Element: Ignored if present
 - `radius` **[Number][numberdef]** **\*required**, can be any number `>0`
-- `numberOfEdges` **[Number][numberdef]** can be any number `>=3`, defaults to 32 when undefined
+- `options` **[Object][Objectdef] or [Number][numberdef]**, key value pair of option and option value.
+  - `numberOfEdges` **[Number][numberdef]**, any value `>=3`. Defaults to 32 when undefined.
+  - Will be interpreted as `{numberOfEdges: number}` if passed a number.
+
 
 ## Disclaimers
 
@@ -89,3 +92,4 @@ polygon:
 
 [arraydef]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 [numberdef]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[objectdef]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
